@@ -1,21 +1,4 @@
-
 use std::{io::{Write, Read}, fs::File};
-
-use crate::SmartDataset;
-
-
-#[derive(Debug, Default)]
-pub struct LocalDataset {
-    pub file_path: String,
-    pub source_location: String, // local, aws, gcp, azure
-    pub source_type: String,     // file, database
-}
-
-
-impl SmartDataset for LocalDataset {
-    fn read(&self)  -> String {read_from_file(&self.file_path)}
-    fn write(&self, data: String) {write_to_file(&self.file_path, &data)}
-}
 
 
 pub fn write_to_file(file_name: &str, data: &str){
