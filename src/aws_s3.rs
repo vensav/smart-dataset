@@ -1,12 +1,16 @@
 use std::{env, time::Duration, path::Path};
 use log::{error, debug};
+#[cfg(feature="aws")]
 use aws_config::{retry::{RetryConfig}, meta::region::RegionProviderChain};
+#[cfg(feature="aws")]
 use aws_sdk_s3::{config, Client, types::{ByteStream}, Credentials, Region};
+#[cfg(feature="aws")]
 use aws_smithy_http::body::SdkBody;
+#[cfg(feature="aws")]
 use aws_smithy_types::timeout::TimeoutConfig;
 
 
-
+#[cfg(feature="aws")]
 pub async fn get_aws_client(
     use_default: Option<bool>,
     region_name: Option<String>
@@ -48,6 +52,7 @@ pub async fn get_aws_client(
 }
 
 
+#[cfg(feature="aws")]
 fn get_aws_credentials(
     region: String
     ) -> config::Builder{
@@ -78,7 +83,7 @@ fn get_aws_credentials(
 }
 
 
-
+#[cfg(feature="aws")]
 pub async fn upload_file(
     client: &Client,
     bucket_name: &str,
@@ -102,7 +107,7 @@ pub async fn upload_file(
     }
 }
 
-
+#[cfg(feature="aws")]
 pub async fn write_to_file(
     client: &Client,
     bucket_name: &str,
@@ -115,6 +120,7 @@ pub async fn write_to_file(
     response.await
 }
 
+#[cfg(feature="aws")]
 async fn put_bytesream(
     client: &Client,
     bucket_name: &str,
@@ -143,7 +149,7 @@ async fn put_bytesream(
     }
 }
 
-
+#[cfg(feature="aws")]
 pub async fn read_from_file(client: &Client, bucket_name: &str, key: &str) -> String {
     let resp = client
         .get_object()
