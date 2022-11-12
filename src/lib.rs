@@ -6,7 +6,7 @@ use log::{warn};
 
 
 #[derive(Debug, Default)]
-pub struct Dataset {
+pub struct FileDataset {
     file_path: String,
     dataset_type: String,
     aws_region: Option<String>,
@@ -16,7 +16,7 @@ pub struct Dataset {
 
 #[async_trait]
 pub trait SmartDataset {
-    fn new(&self, file_path: String) -> Dataset;
+    fn new(file_path: String) -> FileDataset;
     fn read(&self)  -> String;
     fn write(&self, data: String);
     async fn connect(&mut self);
@@ -26,14 +26,14 @@ pub trait SmartDataset {
 
 
 #[async_trait]
-impl SmartDataset for Dataset {
-    fn new(&self, file_path: String) -> Dataset {
-        let path_objects: Vec<&str> = self.file_path.split("/").collect();
+impl SmartDataset for FileDataset {
+    fn new(file_path: String) -> FileDataset {
+        let path_objects: Vec<&str> = file_path.split("/").collect();
         let dataset_type = (
             if path_objects[0] == "s3:" {"aws"} 
             else {"local"}
         ).to_string();
-        Dataset {
+        FileDataset {
             file_path: file_path,
             dataset_type:  dataset_type,
             ..Default::default() // Replace all other fields with defaults
