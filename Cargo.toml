@@ -12,3 +12,5 @@ aws-smithy-http = "0.51.0"
 aws-smithy-async = "0.51.0"
 aws-smithy-types = "0.51.0"
 log = "0.4.17"
+async-trait = "0.1.58"
+serde = { version = "1.0.147", features = ["derive"] }

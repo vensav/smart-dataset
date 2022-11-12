@@ -77,7 +77,7 @@ fn get_aws_credentials(
 
 
 pub async fn upload_file(
-    client: &Client,
+    client: &Option<Client>,
     bucket_name: &str,
     file_name: &str,
     key: &str,
@@ -89,7 +89,7 @@ pub async fn upload_file(
 
     match stream {
         Ok(stream) => {
-            let response = put_bytesream(client, bucket_name, stream, key);
+            let response = put_bytesream(client.as_ref().unwrap(), bucket_name, stream, key);
             response.await
         },
         Err(e) => {
@@ -101,14 +101,14 @@ pub async fn upload_file(
 
 
 pub async fn write_to_file(
-    client: Client,
-    bucket_name: &str,
+    client: &Option<Client>,
     data: &str,
+    bucket_name: &str,
     key: &str,
     ) -> (String, bool) {
     
     let stream = ByteStream::new(SdkBody::from(data));
-    let response = put_bytesream(&client, bucket_name, stream, key);
+    let response = put_bytesream(client.as_ref().unwrap(), bucket_name, stream, key);
     response.await
 }
 
@@ -141,8 +141,10 @@ async fn put_bytesream(
 }
 
 
-pub async fn read_from_file(client: &Client, bucket_name: &str, key: &str) -> String {
+pub async fn read_from_file(client: &Option<Client>, bucket_name: &str, key: &str) -> String {
     let resp = client
+        .as_ref()
+        .unwrap()
         .get_object()
         .bucket(bucket_name)
         .key(key)
