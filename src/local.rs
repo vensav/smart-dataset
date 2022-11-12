@@ -1,9 +1,10 @@
 use std::{io::{Write, Read}, fs::File};
 
 
-pub fn write_to_file(file_name: &str, data: &str){
+pub fn write_to_file(file_name: &str, data: &str) -> (String, bool){
     let mut file = std::fs::File::create(file_name).unwrap_or_else(|_| panic!("create failed for {file_name}"));
     file.write_all(data.as_bytes()).unwrap_or_else(|_| panic!("write failed for {file_name}"));
+    (file_name.to_string(), true)
 }
 
 
