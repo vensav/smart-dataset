@@ -1,16 +1,6 @@
-[package]
-name = "smart-dataset"
-version = "0.1.0"
-edition = "2021"
+[workspace]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-aws-sdk-s3 = "0.21.0"
-aws-config = "0.51.0"
-aws-smithy-http = "0.51.0"
-aws-smithy-async = "0.51.0"
-aws-smithy-types = "0.51.0"
-log = "0.4.17"
-async-trait = "0.1.58"
-serde = { version = "1.0.147", features = ["derive"] }
+members = [
+    "smart-dataset",
+    "smart-dataset-aws",
+]
